@@ -57,6 +57,7 @@
         const colorSet = ['#ff5050', '#2f5dad', '#bfd5fb', 'yellow', '#17f917', 'white'];
         const colorBoard = colorSet.concat(colorSet);
         let shuffled = [];
+        let clicked = [];
 
         function shuffle() {
             for (let i = 0; i < total; i++) {
@@ -85,7 +86,11 @@
             shuffle();
             for (let i = 0; i < total; i++) { // 카드 생성
                 const card = createCard(i);
+                card.id = i;
                 $wrapper.appendChild(card);
+                setTimeout(() => {
+                    card.addEventListener('click', onClickCard);
+                }, 5000);
             }
             document.querySelectorAll('.card').forEach((card, index) => { // 모든 카드 순차적으로 공개
                 setTimeout(() => {
@@ -100,6 +105,22 @@
         };
         startGame();
 
+        function onClickCard() {
+            setTimeout(() => {
+                this.classList.add('flipped');
+            }, 100);
+            clicked.push(shuffled[this.id]);
+            console.log(clicked)
+                        if (clicked.length === 2) { // 클릭된 카드가 2개일 때 비교하기.
+                if (clicked[0] === clicked[1]) {
+                    console.log('qwe')
+                    clicked = [];
+                } else {
+                    this.classList.remove('flipped');
+                    console.log('flf')
+                };
+            };
+        }
     </script>
 </body>
 
