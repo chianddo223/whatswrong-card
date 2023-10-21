@@ -8,7 +8,7 @@
     <style>
         .card {
             display: inline-block;
-            margin-right: 20px;
+            margin-right: 18px;
             margin-bottom: 20px;
             width: 70px;
             height: 100px;
@@ -113,7 +113,7 @@
             const allCard = document.querySelectorAll('.card');
             const arrayAllCard = Array.from(allCard);
             if (arrayAllCard.every(card => card.classList.contains('flipped'))) { // 모두 뒤집혔는지 확인
-                setTimeout(() => { 
+                setTimeout(() => {
                     const confirmReset = window.confirm('성공!! 축하해요!!');
                     if (confirmReset) { // 확인 눌렀을 시 게임 재생성.
                         $wrapper.innerHTML = '';
@@ -124,7 +124,7 @@
                         shuffled = [];
                         colorBoard = colorSet.concat(colorSet);
                         startGame();
-                    }else{
+                    } else {
                         return;
                     }
                 }, 800);
@@ -135,6 +135,7 @@
             if (!clickable) {
                 return;
             };
+            this.removeEventListener('click', onClickCard);
             flipped.push(this);
             this.classList.add('flipped');
             clicked.push(shuffled[this.id]);
@@ -147,15 +148,20 @@
                     clicked = [];
                     resetGame();
                 } else { // 가장 최근에 눌린, 색이 일치하지 않는 flipped 두개 뒤집기.
+                    clicked = [];
                     setTimeout(() => {
                         flipped[flipped.length - 1].classList.remove('flipped');
                         flipped[flipped.length - 2].classList.remove('flipped');
+                        flipped[flipped.length - 1].addEventListener('click', onClickCard);
+                        flipped[flipped.length - 2].addEventListener('click', onClickCard);
                         flipped = [];
-                        clicked = [];
-                        clickable = true;
                     }, 1500);
+                    setTimeout(() => {
+                        clickable = true;
+                    }, 2300);
                 };
             };
+            console.log(clicked);
         }
     </script>
 </body>
